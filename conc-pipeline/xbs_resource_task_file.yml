@@ -9,4 +9,4 @@ inputs:
 - name: conc-pipeline
 
 run:
-  path: ./conc-pipeline/xbs_task_script.sh
+  path: ./conc-pipeline/xbs_resource_task_script.sh
