@@ -1,0 +1,10 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: busybox}
+
+run:
+  path: echo
+  args: [This is task running from task file, not script...]
