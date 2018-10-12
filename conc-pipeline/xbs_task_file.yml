@@ -5,6 +5,8 @@ image_resource:
   type: docker-image
   source: {repository: busybox}
 
+inputs:
+- name: conc-pipeline
+
 run:
-  path: echo
-  args: [This is task running from task file, not script...]
+  path: ./conc-pipeline/xbs_task_script.sh
