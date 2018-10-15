@@ -7,4 +7,4 @@ image_resource:
 
 run:
   path: echo
-  args: [This was triggered by Git updating]
+  args: [This was AGAIN triggered by Git updating]
