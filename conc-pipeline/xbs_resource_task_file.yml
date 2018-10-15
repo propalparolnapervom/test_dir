@@ -7,4 +7,4 @@ image_resource:
 
 run:
   path: echo
-  args: [This was pulled out from the Git]
+  args: [This was triggered by Git updating]
