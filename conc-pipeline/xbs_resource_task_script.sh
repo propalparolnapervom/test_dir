@@ -10,11 +10,7 @@ pwd
 echo
 
 echo 
-echo ls -la
-ls -la
+echo "ls -la *"
+ls -la *
 echo
 
-echo
-echo "ls -la ../"
-ls -la ../
-echo
