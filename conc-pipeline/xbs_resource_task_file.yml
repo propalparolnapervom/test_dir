@@ -9,4 +9,4 @@ inputs:
 - name: xbs_local_resource
 
 run:
-  path: xbs_local_resource/test_dir/conc-pipeline/xbs_resource_task_script.sh
+  path: xbs_local_resource/conc-pipeline/xbs_resource_task_script.sh
