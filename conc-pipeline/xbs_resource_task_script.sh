@@ -5,12 +5,6 @@ echo "This is TASK SCRIPT from RESOURCE!"
 echo
 
 echo
-echo pwd
-pwd
+echo "ls -la ; pwd ; ls -la *"
+ls -la ; pwd ; ls -la *
 echo
-
-echo 
-echo "ls -la *"
-ls -la *
-echo
-
