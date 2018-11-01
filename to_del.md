@@ -74,6 +74,8 @@ your shell you'll find the following response:
 target saved
 ```
 
+Updating steps then will proceeded automatically.
+
 Eventually resulting output will show you the what changes are being applied.
 
 ### Deleting pipelines
