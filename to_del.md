@@ -13,7 +13,6 @@ The directory contains all files, that are used to create a Docker image with ne
 ## ADDITIONAL INFO
 
 [CI pipeline](https://concourse.tools.devopenocean.studio/teams/testing/pipelines/cypress-in-docker) that builds following Docker images:
-
    - [docker-cypress-development](https://quay.io/repository/90poe/docker-cypress-development?tab=tags) - for Development env
    - [docker-cypress-test](https://quay.io/repository/90poe/docker-cypress-test?tab=tags) - for Test env
    - [docker-cypress-staging](https://quay.io/repository/90poe/docker-cypress-staging?tab=tags) - for Staging env
