@@ -1,0 +1,22 @@
+name: Auto Approve, Rebase, Delete Branch
+on: 
+  pull_request:
+    paths:
+      - 'conc-pipeline/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Automatic Approve
+      uses: hmarr/auto-approve-action@v2.0.0
+      with:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Automatic Rebase
+      uses: cirrus-actions/rebase@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Automatic Branch Removing After Its Rebase
+      uses: jessfraz/branch-cleanup-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
