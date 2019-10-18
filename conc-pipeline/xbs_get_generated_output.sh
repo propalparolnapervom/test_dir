@@ -5,6 +5,7 @@ echo
 echo "1) Current dir:"
 pwd
 
+
 echo
 echo "2) Dirs before getting output (current dir):"
 ls -la
