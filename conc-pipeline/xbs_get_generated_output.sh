@@ -9,6 +9,7 @@ echo
 echo "2) Dirs before getting output (current dir):"
 ls -la
 
+
 echo
 echo "3) Getting generated output ..."
 
