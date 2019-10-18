@@ -5,7 +5,7 @@ on:
       - 'conc-pipeline/*'
 
 jobs:
-  build:
+  autosteps:
     runs-on: ubuntu-latest
     steps:
     - name: Automatic Approve
@@ -13,7 +13,7 @@ jobs:
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
     - name: Automatic Rebase
-      uses: docker://nexus.tools.devopenocean.studio/rebase_to_del:latest
+      uses: docker://ppnp/rebase_to_del:latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
