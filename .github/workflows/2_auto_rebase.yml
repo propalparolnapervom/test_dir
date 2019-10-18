@@ -1,11 +1,11 @@
   # https://github.com/cirrus-actions/rebase
-name: Auto Rebase
+
+name: Automatic Rebase Pipeline Name
 
 on: 
   issue_comment:
     types: [created]
 
-name: Automatic Rebase Pipeline Name
 jobs:
   rebase:
     name: Rebase Job Name
