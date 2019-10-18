@@ -8,19 +8,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Automatic Approve
-      uses: hmarr/auto-approve-action@v2.0.0
-      with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
-    - name: Automatic Comment
-      uses: ankitvgupta/pycodestyle-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PRECOMMAND_MESSAGE: "/rebase"
-    # - name: Automatic Rebase
-    #   uses: cirrus-actions/rebase@master
+    # - name: Automatic Approve
+    #   uses: hmarr/auto-approve-action@v2.0.0
+    #   with:
+    #     github-token: "${{ secrets.GITHUB_TOKEN }}"
+    # - name: Automatic Comment
+    #   uses: ankitvgupta/pycodestyle-action@master
     #   env:
     #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     PRECOMMAND_MESSAGE: "/rebase"
+    - name: Automatic Rebase
+      uses: cirrus-actions/rebase@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # - name: Automatic Branch Removing After Its Rebase
     #   uses: jessfraz/branch-cleanup-action@master
