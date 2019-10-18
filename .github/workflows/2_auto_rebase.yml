@@ -1,0 +1,28 @@
+  # https://github.com/cirrus-actions/rebase
+name: Auto Rebase
+
+on: 
+  issue_comment:
+    types: [created]
+
+name: Automatic Rebase Pipeline Name
+jobs:
+  rebase:
+    name: Rebase Job Name
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Automatic Rebase Task Name
+      uses: cirrus-actions/rebase@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # rebase:
+  #   name: Rebase
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@master
+  #   - name: Automatic Rebase
+  #     uses: docker://ppnp/rebase_to_del:latest
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
