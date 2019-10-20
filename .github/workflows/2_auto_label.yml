@@ -17,6 +17,5 @@ jobs:
     steps:
     - name: Auto Labeler Step
       uses: banyan/auto-label@master 
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
