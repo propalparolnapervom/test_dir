@@ -1,0 +1,21 @@
+# https://github.com/pascalgn/automerge-action
+
+name: Auto Rebase and Merge Workflow
+on:
+  pull_request:
+    paths:
+      - 'conc-pipeline/*'
+  pull_request_review:
+    types:
+      - submitted
+  status: {}
+jobs:
+  autorebasemerge_job:
+    needs: autolabeler_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto Rebase and Merge Step 
+        uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_METHOD: "rebase"

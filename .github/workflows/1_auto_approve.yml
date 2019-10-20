@@ -1,4 +1,4 @@
-name: Auto Approve
+name: Auto Approve Workflow
 
 on: 
   pull_request:
@@ -6,24 +6,12 @@ on:
       - 'conc-pipeline/*'
 
 jobs:
-  autoapprove:
+  autoapprove_job:
     runs-on: ubuntu-latest
     steps:
-    - name: Automatic Approve
+    - name: Auto Approve Step
       uses: hmarr/auto-approve-action@v2.0.0
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
 
-    # Label the PR as described in '.github/labeler.yml'
-    - name: Auto Labeler
-      uses: actions/labeler@v2
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-
-
-    - name: Auto Rebase and Merge 
-      uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        MERGE_METHOD: "rebase"
