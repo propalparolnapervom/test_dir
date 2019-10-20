@@ -1,0 +1,22 @@
+# https://github.com/banyan/auto-label
+
+name: Auto Approve Workflow
+
+on: 
+  pull_request:
+    paths:
+      - 'conc-pipeline/*'
+    types:
+      - opened
+      - reopened
+
+jobs:
+  # Label the PR as described in '.github/auto-label.json'
+  autolabeler_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Auto Labeler Step
+      uses: banyan/auto-label@master 
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
