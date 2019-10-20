@@ -6,8 +6,8 @@ on:
       - 'conc-pipeline/*'
     types:
       - labeled
-  pull_request_review:
-  status: {}
+      - ready_for_review
+      - synchronize
 
 jobs:
 

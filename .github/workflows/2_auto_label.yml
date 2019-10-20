@@ -5,19 +5,16 @@ on:
     paths:
       - 'conc-pipeline/*'
     types:
-      - synchronize
       - opened
-      - edited
       - reopened
 
 jobs:
-  autoapprove_job:
+  # Label the PR as described in '.github/labeler.yml'
+  autolabeler_job:
     runs-on: ubuntu-latest
     steps:
-    - name: Auto Approve Step
-      uses: hmarr/auto-approve-action@v2.0.0
+    - name: Auto Labeler Step
+      uses: actions/labeler@v2
       with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
-
-
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
