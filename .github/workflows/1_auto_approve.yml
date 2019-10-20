@@ -4,6 +4,19 @@ on:
   pull_request:
     paths:
       - 'conc-pipeline/*'
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  status: {}
 
 jobs:
   autoapprove_job:
