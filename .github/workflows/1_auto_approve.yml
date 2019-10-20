@@ -15,8 +15,15 @@ jobs:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
 
+    # Label the PR as described in '.github/labeler.yml'
+    - name: Auto Labeler
+      uses: actions/labeler@v2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
-    # - name: Automatic Branch Removing After Its Rebase
-    #   uses: jessfraz/branch-cleanup-action@master
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Auto Rebase and Merge 
+      uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        MERGE_METHOD: "rebase"
