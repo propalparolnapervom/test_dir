@@ -2,8 +2,12 @@ name: Auto Merge Workflow
 
 on:
   pull_request:
+    paths:
+      - 'conc-pipeline/*'
     types:
       - labeled
+  pull_request_review:
+  status: {}
 
 jobs:
 
@@ -15,4 +19,3 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_METHOD: "rebase"
-          LABELS: "rebasemerge"
