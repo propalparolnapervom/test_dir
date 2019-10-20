@@ -1,3 +1,5 @@
+# https://github.com/banyan/auto-label
+
 name: Auto Approve Workflow
 
 on: 
@@ -9,12 +11,12 @@ on:
       - reopened
 
 jobs:
-  # Label the PR as described in '.github/labeler.yml'
+  # Label the PR as described in '.github/auto-label.json'
   autolabeler_job:
     runs-on: ubuntu-latest
     steps:
     - name: Auto Labeler Step
-      uses: actions/labeler@v2
+      uses: banyan/auto-label@master 
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
