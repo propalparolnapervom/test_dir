@@ -11,11 +11,11 @@ on:
       - reopened
 
 jobs:
-  # Label the PR as described in '.github/auto-label.json'
+  # Label the PR as described in '.github/labeler.yml'
   autolabeler_job:
     runs-on: ubuntu-latest
     steps:
     - name: Auto Labeler Step
-      uses: banyan/auto-label@master 
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      uses: actions/labeler@v2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
