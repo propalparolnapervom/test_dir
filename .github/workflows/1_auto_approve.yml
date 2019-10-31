@@ -2,9 +2,11 @@ name: Auto Approve Workflow
 
 on: 
   pull_request:
-    paths:
-      - 'conc-pipeline/*'
-      - '!and_another_dir/*'
+    paths-ignore:
+      - 'and_another_dir/*'
+      - 'just_another_dir/*'
+      - 'actions_examples/*'
+      - '.github/*'
     types:
       - synchronize
       - opened
