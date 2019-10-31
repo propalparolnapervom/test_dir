@@ -4,8 +4,7 @@ on:
   pull_request:
     paths:
       - 'conc-pipeline/*'
-    paths-ignore:
-      - '**/**'
+      - '!*/*'
     types:
       - synchronize
       - opened
