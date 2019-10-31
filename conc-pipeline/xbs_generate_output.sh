@@ -1,7 +1,6 @@
 
 #!/bin/sh
 
-
 echo
 echo "1) Current dir:"
 pwd
