@@ -20,6 +20,10 @@ jobs:
         - |
           export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
 
+          echo
+          echo  " List of files that were modified outside of \"$ONLY_DIR_TO_BE_MODIFIED\" dir:"
+          echo
+
           if 
             curl --request GET \
             --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
@@ -29,14 +33,14 @@ jobs:
           then
             echo
             echo
-            echo "  ERROR: The PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only directory that was modified."
+            echo "  ERROR: PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only dir that was modified."
             echo
             echo
             exit 88
           else
             echo
             echo
-            echo "  CONFIRMED: The PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only directory that was modified."
+            echo "  CONFIRMED: The list is empty. Thus PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only dir that was modified."
             echo
             echo
           fi
