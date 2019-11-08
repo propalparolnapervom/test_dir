@@ -15,29 +15,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Verify Modified Files Step
-      run: |
-        export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
+      run:
+        - "-ec"
+        - |
+          export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
 
-        if 
-          curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
-          grep filename | \
-          grep -v $ONLY_DIR_TO_BE_MODIFIED
-        then
-          echo
-          echo
-          echo "  ERROR: The PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only directory that was modified."
-          echo
-          echo
-          exit 88
-        else
-          echo
-          echo
-          echo "  CONFIRMED: The PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only directory that was modified."
-          echo
-          echo
-        fi
+          if 
+            curl --request GET \
+            --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
+            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
+            grep filename | \
+            grep -v $ONLY_DIR_TO_BE_MODIFIED
+          then
+            echo
+            echo
+            echo "  ERROR: The PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only directory that was modified."
+            echo
+            echo
+            exit 88
+          else
+            echo
+            echo
+            echo "  CONFIRMED: The PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only directory that was modified."
+            echo
+            echo
+          fi
 
   autoapprove_job:
     needs: verify_modified_files
