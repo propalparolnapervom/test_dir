@@ -44,7 +44,7 @@ jobs:
           fi
 
   autoapprove_job:
-    needs: verify_modified_files
+    needs: verify_modified_files_job
     runs-on: ubuntu-latest
     steps:
     - name: Auto Approve Step
