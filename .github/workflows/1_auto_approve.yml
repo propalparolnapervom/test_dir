@@ -15,8 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Verify Modified Files Step
-      run:
-        - |
+      run: |
           export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
 
           echo
