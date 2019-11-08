@@ -46,9 +46,25 @@ jobs:
     steps:
     - name: Create issue using REST API
       run: |
-        curl --request GET \
-        --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
-        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+        export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
+
+        if 
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
+          grep filename | \
+          grep -v $ONLY_DIR_TO_BE_MODIFIED
+        then
+          echo
+          echo "  ERROR: The PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only directory that was modified."
+          echo
+          exit 88
+        else
+          echo
+          echo "  CONFIRMED: The PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only directory that was modified."
+          echo
+        fi
+
 
   # autoapprove_job:
   #   runs-on: ubuntu-latest
