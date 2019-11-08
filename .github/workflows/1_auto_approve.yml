@@ -12,7 +12,7 @@ on:
 
 jobs:
   verify_modified_files:
-    runs-on: alpine
+    runs-on: ubuntu-latest
     steps:
     - name: Verify Modified Files Step
       run: |
@@ -30,7 +30,7 @@ jobs:
           echo "  ERROR: The PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only directory that was modified."
           echo
           echo
-          #exit 88
+          exit 88
         else
           echo
           echo
