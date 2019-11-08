@@ -16,7 +16,6 @@ jobs:
     steps:
     - name: Verify Modified Files Step
       run:
-        - "-ec"
         - |
           export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
 
