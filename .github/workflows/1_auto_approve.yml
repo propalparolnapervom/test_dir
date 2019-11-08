@@ -34,7 +34,7 @@ jobs:
             echo "  ERROR: PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only dir that was modified. See the list above."
             echo
             echo
-            exit 88
+            exit 8
           else
             echo
             echo
