@@ -31,14 +31,14 @@ jobs:
           then
             echo
             echo
-            echo "  ERROR: PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only dir that was modified."
+            echo "  ERROR: PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only dir that was modified. See the list above."
             echo
             echo
             exit 88
           else
             echo
             echo
-            echo "  CONFIRMED: The list is empty. Thus PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only dir that was modified."
+            echo "  CONFIRMED: The list above is empty. Thus PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only dir that was modified."
             echo
             echo
           fi
