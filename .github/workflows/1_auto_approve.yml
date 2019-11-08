@@ -19,6 +19,7 @@ jobs:
           export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
 
           echo
+          echo
           echo  " List of files that were modified outside of \"$ONLY_DIR_TO_BE_MODIFIED\" dir:"
           echo
 
