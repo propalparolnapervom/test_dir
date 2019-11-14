@@ -5,7 +5,6 @@ on:
     paths:
       - 'conc-pipeline/**'
     types:
-      - synchronize
       - opened
       - edited
       - reopened
@@ -39,7 +38,7 @@ jobs:
           else
             echo
             echo
-            echo "  CONFIRMED: The list above is empty. Thus PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only dir that was modified."
+            echo "  CONFIRMED: The list above is empty. Thus, PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only dir that was modified."
             echo
             echo
           fi
