@@ -33,11 +33,11 @@ jobs:
                 echo ${LIST_OF_ONLY_DIRS_TO_BE_MODIFIED} | grep ${modified_dir}
               then
                 echo
-                echo "  Dir ${modified_dir} is allowed for modifications."
+                echo "  \"${modified_dir}\" is allowed for modifications."
                 echo
               else
                 echo
-                echo "  Dir ${modified_dir} is not allowed for modifications."
+                echo "  \"${modified_dir}\" is not allowed for modifications."
                 echo
                 FILE_IS_OUT_OF_ALLOWED_DIR="yes"
               fi
@@ -51,12 +51,14 @@ jobs:
             echo
             echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were found."
             echo
+            echo
             exit 8
           else
             echo
             echo
             echo
             echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list."
+            echo
             echo
           fi
 
