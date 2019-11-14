@@ -1,0 +1,57 @@
+name: Auto Approve Workflow
+
+on: 
+  pull_request:
+    paths:
+      - 'conc-pipeline/**'
+    types:
+      - opened
+      - edited
+      - reopened
+
+jobs:
+  verify_modified_files_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Verify Modified Files Step
+      run: |
+          export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
+
+          echo
+          echo
+          echo  " List of files that were modified outside of \"$ONLY_DIR_TO_BE_MODIFIED\" dir:"
+          echo
+
+          if 
+            curl --request GET \
+            --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
+            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
+            grep filename | \
+            grep -v $ONLY_DIR_TO_BE_MODIFIED
+          then
+            echo
+            echo
+            echo "  ERROR: PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only dir that was modified. See the list above."
+            echo
+            echo
+            exit 8
+          else
+            echo
+            echo
+            echo "  CONFIRMED: The list above is empty. Thus, PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only dir that was modified."
+            echo
+            echo
+          fi
+
+  autoapprove_job:
+    needs: verify_modified_files_job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Auto Approve Step
+      uses: hmarr/auto-approve-action@v2.0.0
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+
+
+
