@@ -16,14 +16,16 @@ jobs:
     steps:
     - name: Verify Modified Files Step
       run: |
-          # Example: LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
-          export LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
-          
-          export SUCCESS="no"
+          # List of the dirs, modifications of which could be Automatically Approved
+          #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
+          LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
+
+          # This is updated to "yes" when all modified files are within one of dirs, modifications of which could be Automatically Approved
+          FILES_IN_ONE_OF_ALLOWED_DIR="no"
 
           echo
           echo
-          echo  " List of files that were modified outside of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s):"
+          echo  " List of files that were modified outside of one of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s):"
           echo
 
           for allowed_dir in $LIST_OF_ONLY_DIRS_TO_BE_MODIFIED
@@ -37,22 +39,22 @@ jobs:
             then
               echo
             else
-              export SUCCESS=yes
+              FILES_IN_ONE_OF_ALLOWED_DIR=yes
             fi
           done
 
-          if [ "${SUCCESS}" = "yes" ]
+          if [ "${FILES_IN_ONE_OF_ALLOWED_DIR}" = "yes" ]
           then
             echo
             echo
-            echo "  CONFIRMED: The list above is empty. Thus, PR can be Auto Approved, as no files outside of\"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were modified."
             echo
+            echo "  CONFIRMED: PR can be Auto Approved, as files from the list above are within one of the dirs from the  \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list."
             echo
           else
             echo
             echo
-            echo "  ERROR: PR can not be Auto Approved, as files outside of allowed \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list weremodified. See the list above."
             echo
+            echo "  ERROR: PR can not be Auto Approved, as files from the list above are outside of each dir from \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list."
             echo
             exit 8
           fi
