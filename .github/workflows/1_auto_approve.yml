@@ -49,7 +49,7 @@ jobs:
             echo
             echo
             echo
-            echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were found."
+            echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list were found."
             echo
             echo
             exit 8
@@ -57,7 +57,7 @@ jobs:
             echo
             echo
             echo
-            echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list."
+            echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list."
             echo
             echo
           fi
