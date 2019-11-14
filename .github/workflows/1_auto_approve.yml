@@ -3,7 +3,8 @@ name: Auto Approve Workflow
 on: 
   pull_request:
     paths:
-      - 'conc-pipeline/**'
+      - 'dir1/**'
+      - 'dir2/**'
     types:
       - opened
       - edited
@@ -15,33 +16,38 @@ jobs:
     steps:
     - name: Verify Modified Files Step
       run: |
-          export ONLY_DIR_TO_BE_MODIFIED="conc-pipeline"
+          # Example: LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
+          export LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
 
           echo
           echo
-          echo  " List of files that were modified outside of \"$ONLY_DIR_TO_BE_MODIFIED\" dir:"
+          echo  " List of files that were modified outside of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s):"
           echo
 
-          if 
-            curl --request GET \
-            --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
-            --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
-            grep filename | \
-            grep -v $ONLY_DIR_TO_BE_MODIFIED
-          then
-            echo
-            echo
-            echo "  ERROR: PR can not be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is not the only dir that was modified. See the list above."
-            echo
-            echo
-            exit 8
-          else
-            echo
-            echo
-            echo "  CONFIRMED: The list above is empty. Thus, PR can be Auto Approved, as \"$ONLY_DIR_TO_BE_MODIFIED\" is the only dir that was modified."
-            echo
-            echo
-          fi
+          # Once the file outside allowed dir is found, exit: this PR can't be automatically approved
+          for allowed_dir in $LIST_OF_ONLY_DIRS_TO_BE_MODIFIED
+          do
+            if 
+              curl --request GET \
+              --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
+              --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
+              grep filename | \
+              grep -v $LIST_OF_ONLY_DIRS_TO_BE_MODIFIED
+            then
+              echo
+              echo
+              echo "  ERROR: PR can not be Auto Approved, as files outside of allowed \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were modified. See the list above."
+              echo
+              echo
+              exit 8
+            else
+              echo
+              echo
+              echo "  CONFIRMED: The list above is empty. Thus, PR can be Auto Approved, as no files outside of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were modified."
+              echo
+              echo
+            fi
+          done
 
   autoapprove_job:
     needs: verify_modified_files_job
