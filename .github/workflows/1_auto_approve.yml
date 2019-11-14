@@ -20,43 +20,44 @@ jobs:
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
           LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
 
-          # This is updated to "yes" when all modified files are within one of dirs, modifications of which could be Automatically Approved
-          FILES_IN_ONE_OF_ALLOWED_DIR="no"
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
+          grep filename > modified_files_list.txt
 
-          echo
-          echo
-          echo  " List of files that were modified outside of one of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s):"
-          echo
+          cat modified_files_list.txt | awk ' {print $2} ' | sed -e "s/\"//" | sed -e "s/\/.*//" | uniq > modified_dirs_list.txt
 
-          for allowed_dir in $LIST_OF_ONLY_DIRS_TO_BE_MODIFIED
+          for modified_dir in `cat modified_dirs_list.txt`
           do
-            if 
-              curl --request GET \
-              --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
-              --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
-              grep filename | \
-              grep -v ${allowed_dir}
-            then
-              echo
-            else
-              FILES_IN_ONE_OF_ALLOWED_DIR=yes
-            fi
+              if
+                echo ${LIST_OF_ONLY_DIRS_TO_BE_MODIFIED} | grep ${modified_dir}
+              then
+                echo
+                echo "  Dir ${modified_dir} is allowed for modifications."
+                echo
+              else
+                echo
+                echo "  Dir ${modified_dir} is not allowed for modifications."
+                echo
+                FILE_IS_OUT_OF_ALLOWED_DIR="yes"
+              fi
           done
 
-          if [ "${FILES_IN_ONE_OF_ALLOWED_DIR}" = "yes" ]
+
+          if [ "${FILE_IS_OUT_OF_ALLOWED_DIR}" = "yes" ]
           then
             echo
             echo
             echo
-            echo "  CONFIRMED: PR can be Auto Approved, as files from the list above are within one of the dirs from the  \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list."
+            echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were found."
             echo
+            exit 8
           else
             echo
             echo
             echo
-            echo "  ERROR: PR can not be Auto Approved, as files from the list above are outside of each dir from \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list."
+            echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list."
             echo
-            exit 8
           fi
 
   autoapprove_job:
