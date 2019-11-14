@@ -18,13 +18,14 @@ jobs:
       run: |
           # Example: LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
           export LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
+          
+          export SUCCESS="no"
 
           echo
           echo
           echo  " List of files that were modified outside of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s):"
           echo
 
-          # Once the file outside allowed dir is found, exit: this PR can't be automatically approved
           for allowed_dir in $LIST_OF_ONLY_DIRS_TO_BE_MODIFIED
           do
             if 
@@ -35,19 +36,26 @@ jobs:
               grep -v ${allowed_dir}
             then
               echo
-              echo
-              echo "  ERROR: PR can not be Auto Approved, as files outside of allowed \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were modified. See the list above."
-              echo
-              echo
-              exit 8
             else
-              echo
-              echo
-              echo "  CONFIRMED: The list above is empty. Thus, PR can be Auto Approved, as no files outside of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were modified."
-              echo
-              echo
+              export SUCCESS=yes
             fi
           done
+
+          if [ "${SUCCESS}" = "yes" ]
+          then
+            echo
+            echo
+            echo "  CONFIRMED: The list above is empty. Thus, PR can be Auto Approved, as no files outside of\"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list were modified."
+            echo
+            echo
+          else
+            echo
+            echo
+            echo "  ERROR: PR can not be Auto Approved, as files outside of allowed \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir(s) list weremodified. See the list above."
+            echo
+            echo
+            exit 8
+          fi
 
   autoapprove_job:
     needs: verify_modified_files_job
