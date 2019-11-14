@@ -33,11 +33,11 @@ jobs:
                 echo ${LIST_OF_ONLY_DIRS_TO_BE_MODIFIED} | grep ${modified_dir}
               then
                 echo
-                echo "  \"${modified_dir}\" is allowed for modifications."
+                echo "  \"${modified_dir}\" is allowed for modifications, if you want to be Auto Approved."
                 echo
               else
                 echo
-                echo "  \"${modified_dir}\" is not allowed for modifications."
+                echo "  \"${modified_dir}\" is not allowed for modifications, if you want to be Auto Approved."
                 echo
                 FILE_IS_OUT_OF_ALLOWED_DIR="yes"
               fi
