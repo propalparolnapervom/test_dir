@@ -11,34 +11,8 @@ on:
       - reopened
 
 jobs:
-  one:
-    runs-on: ubuntu-16.04
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-  verify_modified_files_job:
+
+  get_label:
     runs-on: ubuntu-latest
     steps:
     - name: Verify Modified Files Step
@@ -52,51 +26,66 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
           grep filename > modified_files_list.txt
 
-          cat modified_files_list.txt | awk ' {print $2} ' | sed -e "s/\"//" | sed -e "s/\/.*//" | uniq > modified_dirs_list.txt
 
-          for modified_dir in `cat modified_dirs_list.txt`
-          do
-              if
-                echo ${LIST_OF_ONLY_DIRS_TO_BE_MODIFIED} | grep ${modified_dir}
-              then
-                echo
-                echo "  \"${modified_dir}\" is allowed for modifications, if you want to be Auto Approved."
-                echo
-              else
-                echo
-                echo "  \"${modified_dir}\" is not allowed for modifications, if you want to be Auto Approved."
-                echo
-                FILE_IS_OUT_OF_ALLOWED_DIR="yes"
-              fi
-          done
+  # verify_modified_files_job:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Verify Modified Files Step
+  #     run: |
+  #         # List of the dirs, modifications of which could be Automatically Approved
+  #         #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
+  #         LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
+
+  #         curl --request GET \
+  #         --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
+  #         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
+  #         grep filename > modified_files_list.txt
+
+  #         cat modified_files_list.txt | awk ' {print $2} ' | sed -e "s/\"//" | sed -e "s/\/.*//" | uniq > modified_dirs_list.txt
+
+  #         for modified_dir in `cat modified_dirs_list.txt`
+  #         do
+  #             if
+  #               echo ${LIST_OF_ONLY_DIRS_TO_BE_MODIFIED} | grep ${modified_dir}
+  #             then
+  #               echo
+  #               echo "  \"${modified_dir}\" is allowed for modifications, if you want to be Auto Approved."
+  #               echo
+  #             else
+  #               echo
+  #               echo "  \"${modified_dir}\" is not allowed for modifications, if you want to be Auto Approved."
+  #               echo
+  #               FILE_IS_OUT_OF_ALLOWED_DIR="yes"
+  #             fi
+  #         done
 
 
-          if [ "${FILE_IS_OUT_OF_ALLOWED_DIR}" = "yes" ]
-          then
-            echo
-            echo
-            echo
-            echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list were found."
-            echo
-            echo
-            exit 8
-          else
-            echo
-            echo
-            echo
-            echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list."
-            echo
-            echo
-          fi
+  #         if [ "${FILE_IS_OUT_OF_ALLOWED_DIR}" = "yes" ]
+  #         then
+  #           echo
+  #           echo
+  #           echo
+  #           echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list were found."
+  #           echo
+  #           echo
+  #           exit 8
+  #         else
+  #           echo
+  #           echo
+  #           echo
+  #           echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list."
+  #           echo
+  #           echo
+  #         fi
 
-  autoapprove_job:
-    needs: verify_modified_files_job
-    runs-on: ubuntu-latest
-    steps:
-    - name: Auto Approve Step
-      uses: hmarr/auto-approve-action@v2.0.0
-      with:
-        github-token: "${{ secrets.GITHUB_TOKEN }}"
+  # autoapprove_job:
+  #   needs: verify_modified_files_job
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Auto Approve Step
+  #     uses: hmarr/auto-approve-action@v2.0.0
+  #     with:
+  #       github-token: "${{ secrets.GITHUB_TOKEN }}"
 
 
 
