@@ -78,13 +78,13 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
 
 
-  autorebasemerge_job:
-    needs: add_label_job
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Auto Rebase and Merge Step 
-        uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_METHOD: "rebase"
+  # autorebasemerge_job:
+  #   needs: add_label_job
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Auto Rebase and Merge Step 
+  #       uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
+  #       env:
+  #         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  #         MERGE_METHOD: "rebase"
