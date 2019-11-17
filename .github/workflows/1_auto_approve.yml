@@ -73,11 +73,10 @@ jobs:
       run: |
 
           curl --request POST \
-          -d '{"labels": ["autorebase"]}' \
+          -d '{"labels": ["automerge"]}' \
           --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
 
-          # curl -X POST -H "Authorization: token 5d45e030b9d41ca1d14d61e4ced882aff11e4b01" -d '{"labels": ["works"]}' https://api.github.com/repos/propalparolnapervom/test_dir/issues/92/labels
 
   autorebasemerge_job:
     needs: add_label_job
