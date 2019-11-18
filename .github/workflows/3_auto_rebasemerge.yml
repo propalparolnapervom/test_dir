@@ -1,18 +1,14 @@
 name: Auto Merge Workflow
 
 on:
-  # pull_request:
-  #   paths:
-  #     - 'dir1/**'
-  #     - 'dir2/**'
-  #   types:
-  #     - labeled
+  pull_request:
+    paths:
+      - 'dir1/**'
+      - 'dir2/**'
+    types:
+      - labeled
   #     - ready_for_review
   #     - synchronize
-
-  label:
-    types:
-      - created
 
 jobs:
 

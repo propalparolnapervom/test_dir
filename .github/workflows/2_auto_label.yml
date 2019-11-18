@@ -1,0 +1,25 @@
+name: Auto Label Workflow
+
+on:
+  pull_request:
+    paths:
+      - 'dir1/**'
+      - 'dir2/**'
+    types:
+      - labeled
+  #     - ready_for_review
+  #     - synchronize
+
+jobs:
+
+  add_label_job:
+    needs: autoapprove_job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Add necessary label to the PR
+      run: |
+
+          curl --request POST \
+          -d '{"labels": ["automerge"]}' \
+          --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'

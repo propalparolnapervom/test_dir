@@ -65,7 +65,7 @@ jobs:
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  add_label_job:
+  add_label_interim_job:
     needs: autoapprove_job
     runs-on: ubuntu-latest
     steps:
@@ -73,7 +73,7 @@ jobs:
       run: |
 
           curl --request POST \
-          -d '{"labels": ["automerge"]}' \
+          -d '{"labels": ["interim"]}' \
           --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
 
