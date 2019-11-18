@@ -86,3 +86,24 @@ jobs:
           curl --request DELETE \
           --url https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref }} \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+
+
+  # Slack notification step needs following to be done:
+  #    1. Generate a Slack incoming webhook token, as described at:
+  #       https://slack.com/apps/A0F7XDUAZ-incoming-webhooks.
+  #    2. Create `SLACK_WEBHOOK` GitHub secret for generated webhook, as described at:
+  #       https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets.
+  slack_notify_job:
+    needs: delete_branch_job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@master
+      env:
+        SLACK_CHANNEL: test-test
+        SLACK_COLOR: '#3278BD'
+        # SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'Post Content :rocket:'
+        SLACK_TITLE: Post Title
+        SLACK_USERNAME: auto-merge bot
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
