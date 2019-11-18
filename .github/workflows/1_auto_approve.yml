@@ -66,28 +66,21 @@ jobs:
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  # add_label_job:
-  #   needs: autoapprove_job
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Add necessary label to the PR
-  #     run: |
-
-  #         curl --request POST \
-  #         -d '{"labels": ["automerge"]}' \
-  #         --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
-  #         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
-
-
   autorebasemerge_job:
     needs: autoapprove_job
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v1
       - name: Auto Rebase and Merge Step 
-        # uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
-        # uses: "ppnp/nolabelautomerge@acd0e2cb4170a5f33b7d422493f0e5ef9add11597c8c39e4c22799dc995b54f2"
         uses: docker://ppnp/nolabelautomerge:latest
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_METHOD: "rebase"
+
+  delete_branch_job:
+    needs: autorebasemerge_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete the Branch after Auto Rebase and Merge Step 
+        uses: jessfraz/branch-cleanup-action@master
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
