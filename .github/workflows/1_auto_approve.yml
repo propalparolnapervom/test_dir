@@ -66,26 +66,27 @@ jobs:
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  add_label_job:
-    needs: autoapprove_job
-    runs-on: ubuntu-latest
-    steps:
-    - name: Add necessary label to the PR
-      run: |
+  # add_label_job:
+  #   needs: autoapprove_job
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Add necessary label to the PR
+  #     run: |
 
-          curl --request POST \
-          -d '{"labels": ["automerge"]}' \
-          --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+  #         curl --request POST \
+  #         -d '{"labels": ["automerge"]}' \
+  #         --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
+  #         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
 
 
   autorebasemerge_job:
-    needs: add_label_job
+    needs: autoapprove_job
     runs-on: ubuntu-latest
     steps:
       # - uses: actions/checkout@v1
       - name: Auto Rebase and Merge Step 
-        uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
+        # uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
+        uses: "ppnp/nolabelautomerge"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_METHOD: "rebase"
