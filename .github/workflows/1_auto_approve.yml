@@ -81,6 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete the Branch after Auto Rebase and Merge Step 
-        uses: jessfraz/branch-cleanup-action@master
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        # uses: jessfraz/branch-cleanup-action@master
+        # env:
+        #   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        uses: dawidd6/action-delete-branch@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.pull_request.head.ref }}
