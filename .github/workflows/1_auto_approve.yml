@@ -102,8 +102,8 @@ jobs:
       env:
         SLACK_CHANNEL: test-test
         SLACK_COLOR: '#3278BD'
-        # SLACK_ICON: https://github.com/rtCamp.png?size=48
-        SLACK_MESSAGE: 'Post Content :rocket:'
-        SLACK_TITLE: Post Title
+        SLACK_ICON: https://github.com/rtCamp.png?size=48
+        SLACK_MESSAGE: 'PR ${{ github.event.number }} has been automatically:\n   - approved\n   - merged\n   - appropriate branch deleted\n:fire:'
+        SLACK_TITLE: Congrats!
         SLACK_USERNAME: auto-merge bot
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
