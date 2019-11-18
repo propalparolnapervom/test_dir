@@ -6,14 +6,15 @@ on:
       - 'dir1/**'
       - 'dir2/**'
     types:
-      - labeled
+      - opened
+      - edited
+      - reopened
   #     - ready_for_review
   #     - synchronize
 
 jobs:
 
   add_label_job:
-    needs: autoapprove_job
     runs-on: ubuntu-latest
     steps:
     - name: Add necessary label to the PR

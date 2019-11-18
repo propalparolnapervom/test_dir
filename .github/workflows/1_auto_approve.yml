@@ -65,17 +65,17 @@ jobs:
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  add_label_interim_job:
-    needs: autoapprove_job
-    runs-on: ubuntu-latest
-    steps:
-    - name: Add necessary label to the PR
-      run: |
+  # add_label_interim_job:
+  #   needs: autoapprove_job
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Add necessary label to the PR
+  #     run: |
 
-          curl --request POST \
-          -d '{"labels": ["interim"]}' \
-          --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+  #         curl --request POST \
+  #         -d '{"labels": ["interim"]}' \
+  #         --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels \
+  #         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
 
 
   # autorebasemerge_job:
