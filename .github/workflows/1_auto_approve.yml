@@ -86,7 +86,7 @@ jobs:
       # - uses: actions/checkout@v1
       - name: Auto Rebase and Merge Step 
         # uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
-        uses: "ppnp/nolabelautomerge"
+        uses: "ppnp/nolabelautomerge@latest"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_METHOD: "rebase"
