@@ -87,7 +87,7 @@ jobs:
       - name: Auto Rebase and Merge Step 
         # uses: "pascalgn/automerge-action@a7a731467672c853f76342a06615311a787d5591"
         # uses: "ppnp/nolabelautomerge@acd0e2cb4170a5f33b7d422493f0e5ef9add11597c8c39e4c22799dc995b54f2"
-        uses: docker://ppnp/nolabelautomerge@:latest
+        uses: docker://ppnp/nolabelautomerge:latest
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_METHOD: "rebase"
