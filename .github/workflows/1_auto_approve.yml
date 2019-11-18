@@ -80,16 +80,9 @@ jobs:
     needs: autorebasemerge_job
     runs-on: ubuntu-latest
     steps:
-      - name: Delete the Branch after Auto Rebase and Merge Step 
-        # uses: jessfraz/branch-cleanup-action@master
-        # env:
-        #   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Delete the Branch after Auto Rebase and Merge Step
+      run: |
 
-        # uses: dawidd6/action-delete-branch@master
-        # with:
-        #   github_token: ${{ secrets.GITHUB_TOKEN }}
-        #   branch: ${{ github.pull_request.head.ref }}
-
-        curl --request DELETE \
+          curl --request DELETE \
           --url https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref }} \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
