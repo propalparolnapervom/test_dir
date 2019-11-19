@@ -14,7 +14,7 @@ jobs:
   auto_steps:
     runs-on: ubuntu-latest
     steps:
-    - name: Is PR Restricted by Label
+    - name: is PR restricted by label
       run: |
           # PR should not have restriction "do_not_automerge" label
           if 
@@ -33,7 +33,7 @@ jobs:
             echo
           fi
           
-    - name: What Files Modified
+    - name: what files modified
       run: |
           # List of the dirs, modifications of which could be Automatically Approved
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
@@ -70,7 +70,7 @@ jobs:
             echo
           fi
 
-    - name: Auto Approve Step
+    - name: PR auto approve
       uses: hmarr/auto-approve-action@v2.0.0
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -81,7 +81,7 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         MERGE_METHOD: "rebase"
 
-    - name: Delete Branch
+    - name: delete branch
       run: |
           curl --request DELETE \
           --url https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref }} \
@@ -92,7 +92,7 @@ jobs:
     #       https://slack.com/apps/A0F7XDUAZ-incoming-webhooks.
     #    2. Create `SLACK_WEBHOOK` GitHub secret for generated webhook, as described at:
     #       https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets.
-    - name: Slack Notification
+    - name: slack notification
       uses: docker://ppnp/actions-slack-notify:latest
       env:
         SLACK_CHANNEL: test-test
