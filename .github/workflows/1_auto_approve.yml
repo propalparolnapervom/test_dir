@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Verify Modified Files Step
+      if: ${{ github.mergeable_state }} != "draft"
       run: |
           # List of the dirs, modifications of which could be Automatically Approved
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
