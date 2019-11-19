@@ -21,6 +21,14 @@ jobs:
 
           # Make sure this PR is not a "Draft PR"
 
+          echo
+          echo "    THIS IS STATE OF THIS MERGE: ${{ github.mergeable_state }}"
+          echo
+
+          echo
+          echo "  Let see if ${{ github.mergeable_state }} is proper state for the PR ..."
+          echo
+
           if 
             echo ${{ github.mergeable_state }} | grep -i draft 
           then
