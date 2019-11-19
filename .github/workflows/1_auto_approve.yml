@@ -16,32 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Verify Modified Files Step
-      # if: github.mergeable_state != 'draft'
       run: |
-
-          # Make sure this PR is not a "Draft PR"
-
-          echo
-          echo "    THIS IS STATE OF THIS MERGE: ${{ github.mergeable_state }}"
-          echo
-
-          echo
-          echo "  Let see if ${{ github.mergeable_state }} is proper state for the PR ..."
-          echo
-
-          if 
-            echo ${{ github.mergeable_state }} | grep -i draft 
-          then
-            echo
-            echo "  ERROR: This PR is Draft PR. No automation work can be done further"
-            echo
-            exit 6
-          else
-            echo
-            echo  " CONFIRMED: This PR is not a Draft PR. Keep automation steps."
-            echo
-          fi
-
           # List of the dirs, modifications of which could be Automatically Approved
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
           LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
@@ -87,7 +62,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Auto Approve Step
-      # if: success() && github.mergeable_state != 'draft'
       uses: hmarr/auto-approve-action@v2.0.0
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -108,7 +82,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Delete the Branch after Auto Rebase and Merge Step
-      # if: success()
       run: |
 
           curl --request DELETE \
@@ -126,7 +99,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Slack Notification
-      # if: success()
       uses: docker://ppnp/actions-slack-notify:latest
       env:
         SLACK_CHANNEL: test-test
