@@ -17,6 +17,25 @@ jobs:
     steps:
     - name: Verify Modified Files Step
       run: |
+
+          echo
+          echo  " THIS EXISTS: ${{ github.event.number }}"
+          echo  " DOES THIS EXIST?: ${{ github.labels }}"
+          echo  " DOES THIS EXIST NUMBER2?: ${{ github.mergeable_state }}"
+          echo
+          echo
+
+          EVENT_NUMBER="${{ github.event.number }}"
+          LABELS="${{ github.labels }}""
+          MERGEABLE_STATE="${{ github.mergeable_state }}""
+
+          echo
+          echo  " THIS EXISTS: $EVENT_NUMBER"
+          echo  " DOES THIS EXIST?: $LABELS"
+          echo  " DOES THIS EXIST NUMBER2?: $MERGEABLE_STATE"
+          echo
+          echo
+
           # List of the dirs, modifications of which could be Automatically Approved
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
           LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
