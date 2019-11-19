@@ -15,9 +15,23 @@ jobs:
   verify_modified_files_job:
     runs-on: ubuntu-latest
     steps:
+    - name: Verify PR is not restricted
+      run: |
+          # PR should not have restriction "do_not_automerge" label
+          if 
+            curl -X GET -H "Authorization: token 9b1ef48050ccaea1beb18a850670a72dd84c4e76" https://api.github.com/repos/propalparolnapervom/test_dir/issues/129/labels | grep "name" | grep do_not_automerge
+          then 
+            echo
+            echo  " ERROR: PR is labeled as \"do_not_automerge\", stopping auto steps ..."
+            echo
+            exit 6
+          else
+            echo
+            echo  " CONFIRMED: PR has no restriction labels."
+            echo
+          fi
     - name: Verify Modified Files Step
       run: |
-
           # List of the dirs, modifications of which could be Automatically Approved
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
           LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2"
@@ -72,7 +86,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Auto Rebase and Merge Step 
-        # if: success()
         uses: docker://ppnp/nolabelautomerge:latest
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
