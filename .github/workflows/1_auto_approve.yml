@@ -9,13 +9,12 @@ on:
       - opened
       - edited
       - reopened
-      - labeled
 
 jobs:
-  verify_modified_files_job:
+  auto_steps:
     runs-on: ubuntu-latest
     steps:
-    - name: Verify PR is not restricted
+    - name: Is PR Restricted by Label
       run: |
           # PR should not have restriction "do_not_automerge" label
           if 
@@ -33,7 +32,8 @@ jobs:
             echo  " CONFIRMED: PR has no restriction labels."
             echo
           fi
-    - name: Verify Modified Files Step
+          
+    - name: What Files Modified
       run: |
           # List of the dirs, modifications of which could be Automatically Approved
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
@@ -61,60 +61,37 @@ jobs:
           if [ "${FILE_IS_OUT_OF_ALLOWED_DIR}" = "yes" ]
           then
             echo
-            echo
-            echo
             echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list were found."
-            echo
             echo
             exit 8
           else
             echo
-            echo
-            echo
             echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list."
             echo
-            echo
           fi
-  autoapprove_job:
-    needs: verify_modified_files_job
-    runs-on: ubuntu-latest
-    steps:
+
     - name: Auto Approve Step
       uses: hmarr/auto-approve-action@v2.0.0
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  autorebasemerge_job:
-    needs: autoapprove_job
-    runs-on: ubuntu-latest
-    steps:
-      - name: Auto Rebase and Merge Step 
-        uses: docker://ppnp/nolabelautomerge:latest
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_METHOD: "rebase"
+    - name: Auto Rebase and Merge 
+      uses: docker://ppnp/nolabelautomerge:latest
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        MERGE_METHOD: "rebase"
 
-  delete_branch_job:
-    needs: autorebasemerge_job
-    runs-on: ubuntu-latest
-    steps:
-    - name: Delete the Branch after Auto Rebase and Merge Step
+    - name: Delete Branch
       run: |
-
           curl --request DELETE \
           --url https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref }} \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
 
-
-  # Slack notification step needs following to be done:
-  #    1. Generate a Slack incoming webhook token, as described at:
-  #       https://slack.com/apps/A0F7XDUAZ-incoming-webhooks.
-  #    2. Create `SLACK_WEBHOOK` GitHub secret for generated webhook, as described at:
-  #       https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets.
-  slack_notify_job:
-    needs: delete_branch_job
-    runs-on: ubuntu-latest
-    steps:
+    # Slack notification step needs following to be done:
+    #    1. Generate a Slack incoming webhook token, as described at:
+    #       https://slack.com/apps/A0F7XDUAZ-incoming-webhooks.
+    #    2. Create `SLACK_WEBHOOK` GitHub secret for generated webhook, as described at:
+    #       https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets.
     - name: Slack Notification
       uses: docker://ppnp/actions-slack-notify:latest
       env:
