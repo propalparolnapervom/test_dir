@@ -5,6 +5,7 @@ on:
     paths:
       - 'dir1/**'
       - 'dir2/**'
+      - '!dir2/not_automerge/**'
     types:
       - opened
       - edited
