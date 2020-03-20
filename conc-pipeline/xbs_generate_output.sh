@@ -9,6 +9,7 @@ echo
 echo "2) Dirs before removing try (in current dir):"
 ls -la 
 
+
 echo 
 echo "3) Removing output dir ..."
 rm -rf output_dir
