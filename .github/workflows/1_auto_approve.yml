@@ -41,9 +41,13 @@ jobs:
           --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
           grep filename > modified_files_list.txt
+          echo
+          echo  cat modified_files_list.txt
+          echo
+          cat modified_files_list.txt
           cat modified_files_list.txt | awk ' {print $2} ' | sed -e "s/\"//" | sed -e "s/\/.*//" | uniq > modified_dirs_list.txt
           echo 
-          echo "  This is modified_dirs_list.txt"
+          echo cat modified_dirs_list.txt
           echo
           cat modified_dirs_list.txt
           for modified_dir in `cat modified_dirs_list.txt`
