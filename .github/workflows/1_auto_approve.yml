@@ -36,7 +36,7 @@ jobs:
       run: |
           # List of the dirs, modifications of which could be Automatically Approved
           #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
-          LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="/"
+          LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="readme.txt additional_file.txt"
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
