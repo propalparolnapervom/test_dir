@@ -42,10 +42,10 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
           grep filename > modified_files_list.txt
           echo
-          echo  cat modified_files_list.txt
+          echo  cat modified_files_list.txt | sed 's/",//'
           echo
-          cat modified_files_list.txt
-          cat modified_files_list.txt | awk ' {print $2} ' | sed -e "s/\"//" | sed -e "s/\/.*//" | uniq > modified_dirs_list.txt
+          cat modified_files_list.txt | sed 's/",//'
+          cat modified_files_list.txt | sed 's/",//' | awk ' {print $2} ' | sed -e "s/\"//" | sed -e "s/\/.*//" | uniq > modified_dirs_list.txt
           echo 
           echo cat modified_dirs_list.txt
           echo
