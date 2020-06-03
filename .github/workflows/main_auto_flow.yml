@@ -1,0 +1,42 @@
+name: Main Auto Flow
+
+on: 
+  pull_request:
+    paths:
+      - '*.txt'
+    types:
+      - opened
+      - edited
+      - reopened
+
+jobs:
+  main_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: this step should depend on Status
+        run: |
+             echo
+             echo  "Status of the Job:   OK"
+             echo
+
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-build
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: s_or_f_job
+          ref: github.event.pull_request.head.sha || github.sha
+
+      - name: Do something with a passing build
+        if: steps.wait-for-build.outputs.conclusion == 'success'
+        run: |
+             echo
+             echo  "I can see that status of the Additional Job:   OK"
+             echo
+
+      - name: Do something with a failing build
+        if: steps.wait-for-build.outputs.conclusion == 'failure'
+        run: |
+             echo
+             echo  "I can see that status of the Additional Job:   OK"
+             echo

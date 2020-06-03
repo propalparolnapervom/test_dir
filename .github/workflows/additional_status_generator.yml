@@ -1,9 +1,9 @@
-name: Auto Approve Workflow
+name: Additional Status Generator
 
 on: 
   pull_request:
     paths:
-      - '*.txt'
+      - 'prstatus.txt'
     types:
       - opened
       - edited
@@ -15,9 +15,11 @@ jobs:
     steps:
     - name: this step could be Successfull or Not
       run: |
-            echo
             echo  "Status of the Job:   OK"
-            echo
+            # echo  "Status of the Job:   FAIL"
+            # exit 3
+            
+
 
 
     # - name: is PR restricted by label
