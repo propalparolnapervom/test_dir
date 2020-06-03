@@ -16,9 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          
+
       - name: Wait for build to succeed
         uses: fountainhead/action-wait-for-check@v1.0.0
         id: wait-for-build
@@ -27,6 +25,7 @@ jobs:
           checkName: statjob
           ref: github.event.pull_request.head.sha || github.sha
           # ref: github.sha
+          intervalSeconds: 15
 
       - name: What if it's SUCCESS?
         if: steps.wait-for-build.outputs.conclusion == 'success'
