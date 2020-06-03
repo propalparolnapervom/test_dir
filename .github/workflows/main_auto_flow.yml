@@ -12,6 +12,16 @@ on:
       - reopened
 
 jobs:
+
+  statjob2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: this step could be Successfull or Not
+      run: |
+            echo  "Status of the Job:   OK"
+            # echo  "Status of the Job:   FAIL"
+            # exit 3
+
   main_job:
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +32,7 @@ jobs:
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: statjob
+          checkName: statjob2
           ref: github.event.pull_request.head.sha || github.sha
           # ref: github.sha
           intervalSeconds: 15
