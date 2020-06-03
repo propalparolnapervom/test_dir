@@ -20,9 +20,9 @@ jobs:
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: s_or_f_job
-          # ref: github.event.pull_request.head.sha || github.sha
-          ref: github.sha
+          checkName: statjob
+          ref: github.event.pull_request.head.sha || github.sha
+          # ref: github.sha
 
       - name: What if it's SUCCESS?
         if: steps.wait-for-build.outputs.conclusion == 'success'

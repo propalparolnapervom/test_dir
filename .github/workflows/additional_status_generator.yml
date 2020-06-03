@@ -10,7 +10,7 @@ on:
       - reopened
 
 jobs:
-  s_or_f_job:
+  statjob:
     runs-on: ubuntu-latest
     steps:
     - name: this step could be Successfull or Not
