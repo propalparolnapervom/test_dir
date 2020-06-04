@@ -26,15 +26,15 @@ jobs:
               sleep ${SEC}
 
       - uses: actions/checkout@v1
-      
+
       - name: Wait for build to succeed
         uses: fountainhead/action-wait-for-check@v1.0.0
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: statjob
-          ref: github.event.pull_request.head.sha || github.sha
-          # ref: github.sha
+          # ref: github.event.pull_request.head.sha || github.sha
+          ref: github.sha
           intervalSeconds: 15
 
       - name: What if it's SUCCESS?
