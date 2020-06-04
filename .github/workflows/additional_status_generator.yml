@@ -13,11 +13,12 @@ jobs:
   statjob:
     runs-on: ubuntu-latest
     steps:
-    - name: this step could be Successfull or Not
-      run: |
-            echo  "Status of the Job:   OK"
-            # echo  "Status of the Job:   FAIL"
-            # exit 3
+      - uses: actions/checkout@v1
+      - name: this step could be Successfull or Not
+        run: |
+              echo  "Status of the Job:   OK"
+              # echo  "Status of the Job:   FAIL"
+              # exit 3
             
 
 

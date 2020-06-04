@@ -13,26 +13,25 @@ on:
 
 jobs:
 
-  statjob2:
-    runs-on: ubuntu-latest
-    steps:
-    - name: this step could be Successfull or Not
-      run: |
-            echo  "Status of the Job:   OK"
-            # echo  "Status of the Job:   FAIL"
-            # exit 3
-
   main_job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
+      - name: Sleep for a few seconds
+        run: |
+              SEC=15
+              echo
+              echo  "Sleeping for a ${SEC} sec"
+              echo
+              sleep ${SEC}
 
       - name: Wait for build to succeed
         uses: fountainhead/action-wait-for-check@v1.0.0
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: statjob2
+          checkName: statjob
           ref: github.event.pull_request.head.sha || github.sha
           # ref: github.sha
           intervalSeconds: 15
