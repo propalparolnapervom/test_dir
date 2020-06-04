@@ -17,13 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Sleep for a few seconds
-        run: |
-              SEC=15
-              echo
-              echo  "Sleeping for a ${SEC} sec"
-              echo
-              sleep ${SEC}
+      # - name: Sleep for a few seconds
+      #   run: |
+      #         SEC=10
+      #         echo
+      #         echo  "Sleeping for a ${SEC} sec"
+      #         echo
+      #         sleep ${SEC}
 
       - uses: actions/checkout@v1
 
@@ -32,10 +32,10 @@ jobs:
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: statjob
-          # ref: github.event.pull_request.head.sha || github.sha
-          ref: github.sha
-          intervalSeconds: 15
+          checkName: checkname
+          ref: github.event.pull_request.head.sha || github.sha
+          # ref: github.sha
+          # intervalSeconds: 10
 
       - name: What if it's SUCCESS?
         if: steps.wait-for-build.outputs.conclusion == 'success'
