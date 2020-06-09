@@ -17,37 +17,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # - name: Sleep for a few seconds
+      - name: Sleep for a few seconds
+        run: |
+              echo
+              echo  "Statuses are:"
+              echo
+              # Get statuses list on current PR
+              curl --request GET \
+              --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.number }} \
+              --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+
+
+
+      # - uses: actions/checkout@v1
+
+      # - name: Wait for build to succeed
+      #   uses: fountainhead/action-wait-for-check@v1.0.0
+      #   id: wait-for-build
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     checkName: checkname
+      #     ref: github.event.pull_request.head.sha || github.sha
+      #     # ref: github.sha
+      #     # intervalSeconds: 10
+
+      # - name: What if it's SUCCESS?
+      #   if: steps.wait-for-build.outputs.conclusion == 'success'
       #   run: |
-      #         SEC=10
-      #         echo
-      #         echo  "Sleeping for a ${SEC} sec"
-      #         echo
-      #         sleep ${SEC}
+      #        echo
+      #        echo  "I can see that status of the Additional Job:   OK"
+      #        echo
 
-      - uses: actions/checkout@v1
-
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        id: wait-for-build
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: checkname
-          ref: github.event.pull_request.head.sha || github.sha
-          # ref: github.sha
-          # intervalSeconds: 10
-
-      - name: What if it's SUCCESS?
-        if: steps.wait-for-build.outputs.conclusion == 'success'
-        run: |
-             echo
-             echo  "I can see that status of the Additional Job:   OK"
-             echo
-
-      - name: What if it's FAIL?
-        if: steps.wait-for-build.outputs.conclusion == 'failure'
-        run: |
-             echo
-             echo  "I can see that status of the Additional Job:   FAIL"
-             echo
-             exit 4
+      # - name: What if it's FAIL?
+      #   if: steps.wait-for-build.outputs.conclusion == 'failure'
+      #   run: |
+      #        echo
+      #        echo  "I can see that status of the Additional Job:   FAIL"
+      #        echo
+      #        exit 4
