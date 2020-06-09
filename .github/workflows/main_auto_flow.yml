@@ -23,7 +23,18 @@ jobs:
               echo  "Statuses are:"
               echo
               # Get statuses list on current PR
-              curl --request GET --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}
+              curl --request GET --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.head_ref }}
+
+              echo
+              echo  "Contexts are:"
+              echo 
+              echo
+              echo "github.repository: ${{ github.repository }}"
+              echo
+              echo "github.head_ref: ${{ github.head_ref }}"
+              echo
+              echo "github.event.number: ${{ github.event.number }}"
+              echo           
 
 
 
