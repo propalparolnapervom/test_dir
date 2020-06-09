@@ -17,15 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Sleep for a few seconds
+      - name: Get statuses list manually
         run: |
               echo
               echo  "Statuses are:"
               echo
               # Get statuses list on current PR
-              curl --request GET \
-              --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.number }} \
-              --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
+              curl --request GET --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}
 
 
 
