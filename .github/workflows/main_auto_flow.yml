@@ -25,16 +25,26 @@ jobs:
               # Get statuses list on current PR
               curl --request GET --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.head_ref }}
 
-              echo
-              echo  "Contexts are:"
+              PR_STATUS_NAME_EXPECTED="checkname"
+
               echo 
+              echo "  Wait for necessary PR status ..."
               echo
-              echo "github.repository: ${{ github.repository }}"
-              echo
-              echo "github.head_ref: ${{ github.head_ref }}"
-              echo
-              echo "github.event.number: ${{ github.event.number }}"
-              echo           
+              i=0
+              while [[ "${NECESSARY_STATUS}z" == "z" ]]
+              do
+                  echo "      waiting ... $i"
+                  i=`echo $(( $i + 1 ))`
+                  sleep 10
+                  if 
+                  curl --request GET --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.head_ref }} | grep context | grep ${PR_STATUS_NAME_EXPECTED} > /dev/null 2>&1
+                  then
+                      NECESSARY_STATUS="present"
+                  fi 
+              done
+              echo 
+              echo "  Necessary PR status found."
+              echo       
 
 
 
