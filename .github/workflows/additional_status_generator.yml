@@ -1,121 +1,28 @@
-name: Additional Status Generator
+name: Slack performance stream pull request open notification
 
-on: 
+on:
   pull_request:
     paths:
-      - 'prstatus.txt'
-    types:
-      - opened
-      - edited
-      - reopened
+      - 'entities-enricher-service/**'
+      - 'insights-service/**'
+      - 'ship-data-event-store-service/**'
+      - 'weather-stream-service/**'
+
+    types: [opened, reopened]
 
 jobs:
-  statjob:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: this step could be Successfull or Not
-        run: |
-              echo  "Status of the Job:   OK"
-              # echo  "Status of the Job:   FAIL"
-              # exit 3
-            
-
-
-
-    # - name: is PR restricted by label
-    #   run: |
-    #       # PR should not have restriction "do_not_automerge" label
-    #       if 
-    #         curl --request GET \
-    #         --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }} \
-    #         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
-    #         grep "name" | grep do_not_automerge
-    #       then 
-    #         echo
-    #         echo  " ERROR: PR is labeled as \"do_not_automerge\", stopping auto steps ..."
-    #         echo
-    #         exit 6
-    #       else
-    #         echo
-    #         echo  " CONFIRMED: PR has no restriction labels."
-    #         echo
-    #       fi
-          
-    # - name: what files modified
-    #   run: |
-    #       # List of the dirs, modifications of which could be Automatically Approved
-    #       #   LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="dir1 dir2 dir3 ..."
-    #       LIST_OF_ONLY_DIRS_TO_BE_MODIFIED="readme.txt additional_file.txt"
-    #       curl --request GET \
-    #       --url https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files \
-    #       --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | \
-    #       grep filename > modified_files_list.txt
-    #       echo
-    #       echo  cat modified_files_list.txt | sed 's/",//'
-    #       echo
-    #       cat modified_files_list.txt | sed 's/",//'
-    #       cat modified_files_list.txt | sed 's/",//' | awk ' {print $2} ' | sed -e "s/\"//" | sed -e "s/\/.*//" | uniq > modified_dirs_list.txt
-    #       echo 
-    #       echo cat modified_dirs_list.txt
-    #       echo
-    #       cat modified_dirs_list.txt
-    #       for modified_dir in `cat modified_dirs_list.txt`
-    #       do
-    #           if
-    #             echo ${LIST_OF_ONLY_DIRS_TO_BE_MODIFIED} | grep ${modified_dir}
-    #           then
-    #             echo
-    #             echo "  \"${modified_dir}\" is allowed for modifications, if you want to be Auto Approved."
-    #             echo
-    #           else
-    #             echo
-    #             echo "  \"${modified_dir}\" is not allowed for modifications, if you want to be Auto Approved."
-    #             echo
-    #             FILE_IS_OUT_OF_ALLOWED_DIR="yes"
-    #           fi
-    #       done
-    #       if [ "${FILE_IS_OUT_OF_ALLOWED_DIR}" = "yes" ]
-    #       then
-    #         echo
-    #         echo "  ERROR: PR can not be Auto Approved, as files out of \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list were found."
-    #         echo
-    #         exit 8
-    #       else
-    #         echo
-    #         echo "  CONFIRMED: PR can be Auto Approved, as all modified files are in \"$LIST_OF_ONLY_DIRS_TO_BE_MODIFIED\" dir list."
-    #         echo
-    #       fi
-
-    # - name: PR auto approve
-    #   uses: hmarr/auto-approve-action@v2.0.0
-    #   with:
-    #     github-token: "${{ secrets.GITHUB_TOKEN }}"
-
-    # - name: auto rebase and merge 
-    #   uses: docker://ppnp/nolabelautomerge:latest
-    #   env:
-    #     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-    #     MERGE_METHOD: "rebase"
-
-    # - name: delete branch
-    #   run: |
-    #       curl --request DELETE \
-    #       --url https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref }} \
-    #       --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
-
-    # # Slack notification step needs following to be done:
-    # #    1. Generate a Slack incoming webhook token, as described at:
-    # #       https://slack.com/apps/A0F7XDUAZ-incoming-webhooks.
-    # #    2. Create `SLACK_WEBHOOK` GitHub secret for generated webhook, as described at:
-    # #       https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets#creating-encrypted-secrets.
-    # - name: slack notification
-    #   uses: docker://ppnp/actions-slack-notify:latest
-    #   env:
-    #     SLACK_CHANNEL: test-test
-    #     SLACK_COLOR: '#3278BD'
-    #     SLACK_ICON: https://github.com/rtCamp.png?size=48
-    #     SLACK_MESSAGE: 'PR `${{ github.event.number }}` automatically approved and merged, its `${{ github.head_ref }}` branch deleted.'
-    #     SLACK_TITLE: 'Congrats! :fire:'
-    #     SLACK_USERNAME: auto-merge bot
-    #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Notify slack performance stream pr open
+          env:
+            SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+            PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+            PULL_REQUEST_TITLE: ${{ github.event.pull_request.title }}
+            PULL_REQUEST_AUTHOR_NAME: ${{ github.event.pull_request.user.login }}
+            PULL_REQUEST_AUTHOR_ICON_URL: ${{ github.event.pull_request.user.avatar_url }}
+            PULL_REQUEST_URL: ${{ github.event.pull_request.html_url }}
+            PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
+            PULL_REQUEST_COMPARE_BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+            PULL_REQUEST_BASE_BRANCH_NAME: ${{ github.event.pull_request.base.ref }}
+          uses: jun3453/slack-pr-open-notification-action@v1.0.2
