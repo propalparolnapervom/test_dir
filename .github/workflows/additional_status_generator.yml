@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Notify slack performance stream pr open
         env:
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+          SLACK_WEBHOOK_URL: asdf
           PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
           PULL_REQUEST_TITLE: ${{ github.event.pull_request.title }}
           PULL_REQUEST_AUTHOR_NAME: ${{ github.event.pull_request.user.login }}
