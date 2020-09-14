@@ -15,14 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify slack performance stream pr open
-          env:
-            SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
-            PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
-            PULL_REQUEST_TITLE: ${{ github.event.pull_request.title }}
-            PULL_REQUEST_AUTHOR_NAME: ${{ github.event.pull_request.user.login }}
-            PULL_REQUEST_AUTHOR_ICON_URL: ${{ github.event.pull_request.user.avatar_url }}
-            PULL_REQUEST_URL: ${{ github.event.pull_request.html_url }}
-            PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
-            PULL_REQUEST_COMPARE_BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
-            PULL_REQUEST_BASE_BRANCH_NAME: ${{ github.event.pull_request.base.ref }}
-          uses: jun3453/slack-pr-open-notification-action@v1.0.2
+        env:
+          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+          PULL_REQUEST_TITLE: ${{ github.event.pull_request.title }}
+          PULL_REQUEST_AUTHOR_NAME: ${{ github.event.pull_request.user.login }}
+          PULL_REQUEST_AUTHOR_ICON_URL: ${{ github.event.pull_request.user.avatar_url }}
+          PULL_REQUEST_URL: ${{ github.event.pull_request.html_url }}
+          PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
+          PULL_REQUEST_COMPARE_BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+          PULL_REQUEST_BASE_BRANCH_NAME: ${{ github.event.pull_request.base.ref }}
+        uses: jun3453/slack-pr-open-notification-action@v1.0.2
